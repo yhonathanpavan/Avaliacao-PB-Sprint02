@@ -13,12 +13,9 @@ public class AnaliseDeSentimento {
         int contadorRostoDivertido = 0;
         int contadorRostoChateado = 0;
 
-        int teste = 0;
-
-
-            System.out.println("\nInsira sua mensagem: ");
-            String respostaDoUsuario[] = sc.nextLine().split("");
-            int tamanhoDaFrase = respostaDoUsuario.length;
+        System.out.println("\nInsira sua mensagem: ");
+        String[] respostaDoUsuario = sc.nextLine().split("");
+        int tamanhoDaFrase = respostaDoUsuario.length;
 
 
             for (int i = 0; i < tamanhoDaFrase; i++) {
@@ -32,7 +29,6 @@ public class AnaliseDeSentimento {
                         }
                     }
                 }
-
             }
 
         if(contadorRostoDivertido > contadorRostoChateado){
@@ -44,7 +40,6 @@ public class AnaliseDeSentimento {
         else{
             System.out.println("Neutro");
         }
-
 
     }
 }
