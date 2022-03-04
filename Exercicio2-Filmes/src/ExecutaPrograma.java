@@ -7,7 +7,6 @@ public class ExecutaPrograma {
 
     public static void main(String[] args) throws SQLException {
 
-
         try(Connection connection = new ConnectionFactory().getConnection()){
 
             FilmeDAO filmeDAO = new FilmeDAO(connection);
@@ -39,6 +38,7 @@ public class ExecutaPrograma {
                             break;
 
                         case 3:
+                            //Try para impedir que o usuário tente ver o catálogo sem informar a quantidade de filmes ou qual página quer acessar.
                             try {
                                 filmeDAO.construirPaginacao(qtdFilmes, pagina);
                             }catch(NullPointerException ex){

@@ -12,48 +12,41 @@ public class FilmeDAO {
         this.connection = con;
     }
 
-    public void inserir() throws SQLException {
-
-        InserirFilmes(connection);
-
-    }
-
     public void construirPaginacao(int qtdFilmesPorPagina, int paginaAcessada) throws SQLException {
 
         InserirFilmes(connection);
+
         int quantidadeDeFilmes = ArmazenarLista().size();
 
-        int qtdDePaginasDisponiveis = Math.round(quantidadeDeFilmes / (float)qtdFilmesPorPagina);
+        double qtdDePaginasDisponiveis = Math.ceil(quantidadeDeFilmes / (float)qtdFilmesPorPagina);
 
-        inserir();
         listar(qtdFilmesPorPagina, paginaAcessada, qtdDePaginasDisponiveis);
     }
 
-    public void listar(int qtdFilmesPorPagina, int paginaAcessada, int qtdDePaginasDisponiveis) throws SQLException{
+    public void listar(int qtdFilmesPorPagina, int paginaAcessada, double qtdDePaginasDisponiveis) throws SQLException{
 
-        int contador = 1;
+        int contadorDePaginas = 1;
         int limiteInicial = 0;
         int limiteFinal = 0;
 
+        //Validação de acesso a páginas inexistentes
         if(paginaAcessada < 1 || paginaAcessada > qtdDePaginasDisponiveis){
             System.out.println("\nPágina não disponível! ");
-            System.out.println("Quantidade de páginas possíveis para acessar: " + qtdDePaginasDisponiveis + ".  | Pág inserida: "+ paginaAcessada + ".");
+            System.out.println("Quantidade de páginas possíveis para acessar: " + (int)qtdDePaginasDisponiveis + ".  | Pág inserida: "+ paginaAcessada + ".");
             System.out.println("Por favor, altere para  uma página disponível! \n");
         }else{
             System.out.println("\n----------------------------------");
-            System.out.println("Você está na página: " + paginaAcessada + "/" + qtdDePaginasDisponiveis);
+            System.out.println("Você está na página: " + paginaAcessada + "/" + (int)qtdDePaginasDisponiveis);
             System.out.println("----------------------------------\n");
-            while(contador <= qtdDePaginasDisponiveis) {
+            while(contadorDePaginas <= qtdDePaginasDisponiveis) {
 
-                if(paginaAcessada == contador){
+                if(paginaAcessada == contadorDePaginas){
 
-
-                    limiteInicial = ((qtdFilmesPorPagina*contador) - qtdFilmesPorPagina);
+                    limiteInicial = ((qtdFilmesPorPagina*contadorDePaginas) - qtdFilmesPorPagina);
                     limiteFinal = qtdFilmesPorPagina;
                     break;
                 }
-
-                contador++;
+                contadorDePaginas++;
             }
 
 
@@ -84,6 +77,7 @@ public class FilmeDAO {
         }
     }
 
+    //Armazena os filmes da minha tabela em um arraylist
     public List<Filme> ArmazenarLista() throws SQLException {
         List<Filme> filmes = new ArrayList<>();
 
@@ -109,10 +103,9 @@ public class FilmeDAO {
     private void InserirFilmes(Connection con) throws SQLException {
         try(Statement stm = con.createStatement()){
 
-
+            //"Drop" da tabela para cada vez que o programa iniciar, os ids e a quantidade de filmes permanecerem os mesmos.
             stm.execute("DROP TABLE IF EXISTS FILME");
             stm.execute("CREATE TABLE FILME (id INT AUTO_INCREMENT, nome VARCHAR(50) NOT NULL, descricao VARCHAR(255), ano YEAR, PRIMARY KEY (id)) Engine = InnoDB;");
-
 
             stm.execute("INSERT INTO FILME (NOME, DESCRICAO, ANO) VALUES ('O que ficou pra trás', 'Direção de Remi Weekes, Reino Unido/EUA.', 2020)");
             stm.execute("INSERT INTO FILME (NOME, DESCRICAO, ANO) VALUES ('Os Lobos', 'Direção de Samuel Kishi, México', 2019)");
