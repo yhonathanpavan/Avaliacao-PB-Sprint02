@@ -25,5 +25,5 @@ CREATE TABLE filme (id INT AUTO_INCREMENT, nome VARCHAR(50) NOT NULL, descricao 
 Login e senha utilizados para realizar conexão no JDBC: 
 --------------------------------------------------
 
-Login: root
-Senha: toor123
+- Login: root
+- Senha: toor123
