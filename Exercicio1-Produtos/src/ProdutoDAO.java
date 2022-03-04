@@ -13,57 +13,52 @@ public class ProdutoDAO {
 
     public void listar() throws SQLException {
 
-            try(PreparedStatement ps = connection.prepareStatement("SELECT * FROM produto")){
-                ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement("SELECT * FROM produto")){
+            ps.execute();
 
-                try(ResultSet rs = ps.getResultSet()){
+            try(ResultSet rs = ps.getResultSet()){
 
-                    while(rs.next()){
-                        Integer id = rs.getInt(1);
-                        String nome = rs.getString(2);
-                        String desc = rs.getString(3);
-                        Integer quantidade = rs.getInt(4);
-                        Double preco = rs.getDouble(5);
+                while(rs.next()){
+                    Integer id = rs.getInt(1);
+                    String nome = rs.getString(2);
+                    String desc = rs.getString(3);
+                    Integer quantidade = rs.getInt(4);
+                    Double preco = rs.getDouble(5);
 
-                        System.out.println("************************************");
-                        System.out.println(" Id: " + id);
-                        System.out.println(" Nome: " + nome);
-                        System.out.println(" Descricao: " + desc);
-                        System.out.println(" Quantidade: " + quantidade);
-                        System.out.println(" Preco: R$" + preco);
-                        System.out.println("************************************\n");
-
-                    }
+                    System.out.println("************************************");
+                    System.out.println(" Id: " + id);
+                    System.out.println(" Nome: " + nome);
+                    System.out.println(" Descricao: " + desc);
+                    System.out.println(" Quantidade: " + quantidade);
+                    System.out.println(" Preco: R$" + preco);
+                    System.out.println("************************************\n");
 
                 }
             }
+        }
     }
 
     public void inserir(Produto produto) throws SQLException {
 
+        String sql = "INSERT INTO PRODUTO (NOME, DESCRICAO, QUANTIDADE, PRECO) VALUES (?,?,?,?)";
 
-            String sql = "INSERT INTO PRODUTO (NOME, DESCRICAO, QUANTIDADE, PRECO) VALUES (?,?,?,?)";
+        try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstm.setString(1, produto.getNome());
+            pstm.setString(2, produto.getDescricao());
+            pstm.setInt(3, produto.getQuantidade());
+            pstm.setDouble(4, produto.getPreco());
 
-                pstm.setString(1, produto.getNome());
-                pstm.setString(2, produto.getDescricao());
-                pstm.setInt(3, produto.getQuantidade());
-                pstm.setDouble(4, produto.getPreco());
+            pstm.execute();
 
-                pstm.execute();
+            try (ResultSet rs = pstm.getGeneratedKeys()) {
 
-                try (ResultSet rs = pstm.getGeneratedKeys()) {
-
-                    while (rs.next()) {
-                        produto.setId(rs.getInt(1));
-                        System.out.println("Foi adicionado o item de código: " + produto.getId());
-                    }
-
+                while (rs.next()) {
+                    produto.setId(rs.getInt(1));
+                    System.out.println("Foi adicionado o item de código: " + produto.getId());
                 }
-
             }
-
+        }
     }
 
     public void remover(Integer id) throws SQLException {
@@ -81,7 +76,6 @@ public class ProdutoDAO {
             System.out.println("Quantidade de linhas que foram modificadas: " + linhasModificadas);
 
         }
-
     }
 
     public void atualizar(Produto produto, int id) throws SQLException{
@@ -98,7 +92,6 @@ public class ProdutoDAO {
         System.out.println("Insira seu preco: ");
         produto.setPreco(sc.nextDouble());
 
-
         try(PreparedStatement pstm = connection.prepareStatement("UPDATE PRODUTO SET NOME = ?, DESCRICAO = ?, QUANTIDADE = ?, PRECO = ? WHERE ID = ?")){
             pstm.setString(1, produto.getNome());
             pstm.setString(2, produto.getDescricao());
@@ -108,9 +101,9 @@ public class ProdutoDAO {
 
             pstm.execute();
         }
-
     }
 
+    //Armazena os produtos do meu banco em uma lista
     public  List<Produto> ArmazenarLista() throws SQLException {
         List<Produto> produtos = new ArrayList<>();
 
@@ -125,9 +118,7 @@ public class ProdutoDAO {
                     Produto produto = new Produto(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5));
                     produtos.add(produto);
                 }
-
             }
-
         }
         return produtos;
     }

@@ -15,11 +15,13 @@ public class CadastroDeProdutos {
 
         try(Connection connection = new ConnectionFactory().getConnection()) {
             ProdutoDAO produtoDAO = new ProdutoDAO(connection);
-            produtos = produtoDAO.ArmazenarLista(); //Atribuo os produtos do banco de dados para minha lista
+
 
             while (opcaoMenu != 5) {
 
-                 opcaoMenu = menu();
+                 produtos = produtoDAO.ArmazenarLista(); //Atribuo os produtos do banco de dados para minha lista
+
+                opcaoMenu = menu(); //Invoco o menu e recebo a opção que o usuário escolheu
 
                 switch (opcaoMenu) {
 
@@ -29,9 +31,7 @@ public class CadastroDeProdutos {
 
                     case 2:
                         System.out.println("\nAtualizar");
-
                         atualizaProduto(produtos, produtoDAO);
-
                         break;
 
                     case 3:
@@ -53,11 +53,8 @@ public class CadastroDeProdutos {
                     default:
                         System.out.println("Opção inválida!!");
                         break;
-
                 }
-
             }
-
             System.exit(1);
         }
 
@@ -71,7 +68,7 @@ public class CadastroDeProdutos {
         System.out.println("Insira o id do produto que deseja atualizar: ");
         int id = sc.nextInt();
 
-
+        //Verifico se o id do produto que pretendo atualizar existe
         for (int i = 0; i < produtos.size(); i++) {
             if(id == produtos.get(i).getId()){
                 produtoAAtualizar = produtos.get(i);
@@ -80,6 +77,7 @@ public class CadastroDeProdutos {
             }
         }
 
+        //Validação caso o produto não exista na minha lista
         if(idAAtualizar != null){
             produtoDAO.atualizar(produtoAAtualizar, idAAtualizar);
         }else{
@@ -102,7 +100,6 @@ public class CadastroDeProdutos {
         System.out.println("Insira o preco: ");
         produto.setPreco(sc.nextDouble());
 
-        produtos.add(produto);
         return produto;
     }
 
