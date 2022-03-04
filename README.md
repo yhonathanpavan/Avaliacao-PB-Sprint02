@@ -21,3 +21,9 @@ USE db_filmes;
 CREATE TABLE filme (id INT AUTO_INCREMENT, nome VARCHAR(50) NOT NULL, descricao VARCHAR(255), ano YEAR, PRIMARY KEY (id)) Engine = InnoDB;
 
 --------------------------------------------------
+
+Login e senha utilizados para realizar conexão no JDBC: 
+--------------------------------------------------
+
+Login: root
+Senha: toor123
