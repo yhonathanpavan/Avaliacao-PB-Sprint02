@@ -5,41 +5,40 @@ public class AnaliseDeSentimento {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        String olho = ":";
-        String nariz = "-";
-        String bocaDivertido = ")";
-        String bocaChateado = "(";
 
-        int contadorRostoDivertido = 0;
-        int contadorRostoChateado = 0;
+        String rostoFeliz = ":-)";
+        String rostoChateado = ":-(";
+        String msg = "";
 
-        System.out.println("\nInsira sua mensagem: ");
-        String[] respostaDoUsuario = sc.nextLine().split("");
-        int tamanhoDaFrase = respostaDoUsuario.length;
+        while(!msg.equals("0")) {
 
+            int contadorRostoFeliz = 0;
+            int contadorRostoChateado = 0;
 
-            for (int i = 0; i < tamanhoDaFrase; i++) {
+            System.out.println("\nPara sair do programa, basta digitar \"0\"");
+            System.out.println("Insira sua mensagem: ");
+            msg = sc.nextLine();
 
-                if (olho.equals(respostaDoUsuario[i])) {
-                    if (nariz.equals(respostaDoUsuario[i+1])) {
-                        if (bocaDivertido.equals(respostaDoUsuario[i+2])) {
-                            contadorRostoDivertido++;
-                        }else if (bocaChateado.equals(respostaDoUsuario[i+2])) {
-                            contadorRostoChateado++;
-                        }
-                    }
+            for (int i = 0; i < msg.length(); i++) {
+                if (msg.substring(i).startsWith(rostoFeliz)){
+                    contadorRostoFeliz++;
+                }
+                if (msg.substring(i).startsWith(rostoChateado)){
+                    contadorRostoChateado++;
                 }
             }
 
-        if(contadorRostoDivertido > contadorRostoChateado){
-            System.out.println("Divertido");
+            if(contadorRostoFeliz > contadorRostoChateado){
+                System.out.println("Divertido");
+            }else if(contadorRostoChateado > contadorRostoFeliz){
+                System.out.println("Chateado");
+            }else if(msg.equals("0")) {
+                System.out.println("Saindo....");
+            }else{
+                System.out.println("Neutro");
+            }
         }
-        else if(contadorRostoChateado > contadorRostoDivertido){
-            System.out.println("Chateado");
-        }
-        else{
-            System.out.println("Neutro");
-        }
+        System.exit(1);
 
     }
 }
