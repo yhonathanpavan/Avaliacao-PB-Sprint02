@@ -15,10 +15,16 @@ public class FilmeDAO {
     public void construirPaginacao(int qtdFilmesPorPagina, int paginaAcessada) throws SQLException {
 
         InserirFilmes(connection);
-
+        double qtdDePaginasDisponiveis = 0;
         int quantidadeDeFilmes = ArmazenarLista().size();
 
-        double qtdDePaginasDisponiveis = Math.ceil(quantidadeDeFilmes / (float)qtdFilmesPorPagina);
+        //Tratamento de entradas para valores abaixo e acima da quantidade de filmes cadastrados
+        if(qtdFilmesPorPagina > 0 && qtdFilmesPorPagina <= quantidadeDeFilmes) {
+             qtdDePaginasDisponiveis = Math.ceil(quantidadeDeFilmes / (float) qtdFilmesPorPagina);
+        }else{
+            System.out.println("Por favor, Para a quantidade de filmes por página, insira um valor entre 1 e " + quantidadeDeFilmes + "\n");
+            return;
+        }
 
         listar(qtdFilmesPorPagina, paginaAcessada, qtdDePaginasDisponiveis);
     }
@@ -38,6 +44,7 @@ public class FilmeDAO {
             System.out.println("\n----------------------------------");
             System.out.println("Você está na página: " + paginaAcessada + "/" + (int)qtdDePaginasDisponiveis);
             System.out.println("----------------------------------\n");
+
             while(contadorDePaginas <= qtdDePaginasDisponiveis) {
 
                 if(paginaAcessada == contadorDePaginas){
