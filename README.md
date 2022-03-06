@@ -27,3 +27,10 @@ Login e senha utilizados para realizar conexão no JDBC:
 
 - Login: root
 - Senha: toor123
+
+Dependências:
+--------------------------------------------------
+- Os exercícios 1 e 2 precisam de um driver / biblioteca (JAR) para acessar o banco de dados.
+- O driver usado para fazer a conexão com o banco foi o MySQl-Connector Versão 8.0.17
+- Esta biblioteca está disponível para download na pasta "MySQL Connector - JAR Download"
+--------------------------------------------------
